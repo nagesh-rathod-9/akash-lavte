@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>आकाश लव्हट | Flex Printing & Advertising</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#5e0000;        /* Deep Maroon from the flyer */
+  --primary-dark:#3a0000;
+  --secondary:#ffc900;      /* Bright Gold from the flyer */
+  --secondary-light:#ffe699;
+  --bg:#f8f5f0;            /* Warm off-white */
+  --surface:#ffffff;
+  --text:#1a1a1a;
+  --muted:#6b6b6b;
+  --border:#e8ddd2;
+  --radius:18px;
+  --shadow-sm:0 4px 14px rgba(0,0,0,.05);
+  --shadow-md:0 18px 40px rgba(0,0,0,.08);
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter','Noto Sans Devanagari',sans-serif;
+  overflow-x:hidden;
+  width:100%;
+  -webkit-font-smoothing:antialiased;
+}
+body.lang-mr .en{display:none!important;}
+body.lang-en .mr{display:none!important;}
+body.lang-mr{font-family:'Noto Sans Devanagari','Inter',sans-serif;}
+h1,h2,h3,.display{font-family:'Poppins','Noto Sans Devanagari',sans-serif; font-weight:700; color:var(--text);}
+img{max-width:100%; display:block;}
+a{color:inherit; text-decoration:none;}
+button{font-family:inherit; cursor:pointer;}
+::selection{background:var(--secondary); color:var(--primary);}
+
+/* ---------- ICON SIZING (fixes oversized/broken icons across buttons) ---------- */
+/* Every inline icon on this site is wrapped in <span class="icon-svg" style="width:..;height:..">
+   The raw <svg><use ...></svg> inside has no intrinsic size of its own, so without this rule
+   browsers fall back to a large default box (this was the cause of the giant WhatsApp icon
+   breaking the banner-preview button). This rule forces the svg to fill its wrapper exactly. */
+.icon-svg{
+  display:inline-flex; align-items:center; justify-content:center;
+  flex-shrink:0; line-height:0;
+}
+.icon-svg svg{ width:100%; height:100%; display:block; }
+
+/* ---------- NAV ---------- */
+nav{
+  position:fixed; top:0; left:0; right:0; z-index:1000;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:8px clamp(14px,4vw,48px);
+  background:rgba(94, 0, 0, 0.95);
+  backdrop-filter:blur(12px);
+  transition:all .35s ease;
+  border-bottom:2px solid var(--secondary);
+}
+nav.scrolled{background:rgba(94, 0, 0, 0.98); box-shadow:var(--shadow-md);}
+.logo{display:flex; align-items:center; gap:10px; height:40px;}
+.logo img{height:100%; width:auto; object-fit:contain;}
+.nav-right-group{display:flex; align-items:center; gap:clamp(18px,2.6vw,40px);}
+.nav-links{display:flex; align-items:center; gap:clamp(14px,2vw,30px);}
+.nav-links a{font-size:14px; font-weight:600; color:#ffffff; transition:color .2s; position:relative;}
+.nav-links a:hover{color:var(--secondary);}
+.nav-right{display:flex; align-items:center; gap:14px;}
+.lang-toggle{
+  border:1px solid rgba(255,255,255,0.4); background:transparent; color:#fff;
+  border-radius:100px; padding:6px 4px; font-size:12px; font-weight:700; display:flex; gap:2px;
+}
+.lang-toggle button{border:none; background:transparent; color:rgba(255,255,255,0.6); padding:5px 10px; border-radius:100px; font-size:12px; font-weight:700; transition:all .2s;}
+.lang-toggle button.active{background:var(--secondary); color:var(--primary);}
+.wa-btn{
+  background:#22c55e; color:#fff; font-weight:700; font-size:13px;
+  padding:10px 18px; border-radius:100px; display:flex; align-items:center; gap:7px;
+  box-shadow:0 6px 20px rgba(34,197,94,0.3); border:none; white-space:nowrap;
+}
+.burger{display:none; flex-direction:column; gap:5px; background:none; border:none; padding:6px;}
+.burger span{width:22px; height:2px; background:#fff; border-radius:2px;}
+
+/* ---------- HERO ---------- */
+.hero{
+  min-height:100svh; width:100%; display:flex; align-items:center;
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, #200000 100%);
+  padding-top:90px;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:''; position:absolute; inset:0; opacity:.08; pointer-events:none;
+  background-image:radial-gradient(circle, var(--secondary) 1.5px, transparent 1.5px);
+  background-size:26px 26px;
+}
+.hero-grid{
+  display:grid; grid-template-columns:1.1fr .9fr; gap:40px; align-items:center;
+  width:100%; padding:20px clamp(16px,5vw,64px) 60px; position:relative; z-index:1;
+}
+.eyebrow{
+  display:inline-flex; align-items:center; gap:8px; font-size:12px; font-weight:700; letter-spacing:2px;
+  color:var(--secondary); text-transform:uppercase; margin-bottom:18px; border:2px solid var(--secondary);
+  padding:6px 14px; border-radius:100px; background:rgba(255,204,0,0.1);
+}
+.hero h1{ font-size:clamp(42px,7vw,72px); line-height:1.05; color:#ffffff; margin-bottom:20px; }
+.hero h1 .accent{ color:var(--secondary); position:relative; text-shadow: 0 0 15px rgba(255,204,0,0.4); }
+.hero p.sub{ font-size:clamp(15px,1.8vw,19px); color:rgba(255,255,255,0.8); max-width:600px; margin-bottom:28px; line-height:1.6; }
+
+/* trust badges strip */
+.hero-badges{ display:flex; flex-wrap:wrap; gap:10px 22px; margin-bottom:30px; }
+.hero-badge{ display:flex; align-items:center; gap:9px; font-size:13px; font-weight:600; color:rgba(255,255,255,0.9); }
+.hero-badge .icon-svg{ width:18px; height:18px; color:var(--secondary); }
+.hero-badge .icon-svg svg{ fill:var(--secondary); }
+
+.hero-ctas{ display:flex; flex-wrap:wrap; gap:14px; }
+.btn-primary{
+  background:var(--secondary); color:var(--primary); font-weight:700; font-size:15px;
+  padding:15px 28px; border-radius:14px; display:inline-flex; align-items:center; gap:9px;
+  box-shadow:0 10px 30px rgba(255,204,0,0.25); transition:all .2s;
+}
+.btn-primary:hover{ background:#ffd633; transform:translateY(-2px); }
+.btn-primary .icon-svg{ width:17px; height:17px; }
+.btn-secondary{
+  border:2px solid var(--secondary); color:#ffffff; font-weight:700; font-size:15px;
+  padding:15px 26px; border-radius:14px; display:inline-flex; align-items:center; gap:9px; transition:.2s;
+  background:transparent;
+}
+.btn-secondary:hover{ background:var(--secondary); color:var(--primary); }
+.hero-stats{ display:flex; gap:clamp(20px,4vw,44px); margin-top:44px; flex-wrap:wrap; }
+.stat b{ font-family:'Poppins','Noto Sans Devanagari'; font-size:clamp(24px,3vw,32px); color:var(--secondary); display:block; }
+.stat span{ font-size:12px; color:rgba(255,255,255,0.7); text-transform:uppercase; letter-spacing:1px; }
+
+/* ---------- HERO VISUAL: 3-slide rotating showcase ---------- */
+.hero-visual{ position:relative; display:flex; justify-content:center; }
+.hero-visual::before{
+  content:''; position:absolute; inset:-20px; border-radius:30px;
+  background:conic-gradient(from 90deg, var(--secondary), var(--primary), var(--secondary));
+  filter:blur(30px); opacity:.3; z-index:-1;
+}
+.hero-slider{
+  position:relative; width:100%; max-width:600px; aspect-ratio:1/1;
+  border-radius:22px; overflow:hidden; box-shadow:0 30px 60px rgba(0,0,0,0.6);
+  border:3px solid var(--secondary); transform:rotate(1deg) scale(0.95); background:#fff;
+}
+.hero-slide{
+  position:absolute; inset:0; opacity:0; transition:opacity .9s ease;
+  display:flex; align-items:flex-end; justify-content:center;
+}
+.hero-slide.active{ opacity:1; }
+.hero-slide img{ width:100%; height:100%; object-fit:cover; }
+.hero-slide-caption{
+  position:absolute; left:0; right:0; bottom:0; padding:18px 20px 16px;
+  background:linear-gradient(0deg, rgba(58,0,0,0.9), transparent);
+  color:#fff; font-family:'Poppins','Noto Sans Devanagari'; font-weight:700; font-size:15px;
+  z-index:2;
+}
+.hero-slider-dots{
+  position:absolute; bottom:14px; right:16px; display:flex; gap:7px; z-index:3;
+}
+.hero-slider-dots .dot{ width:9px; height:9px; border-radius:50%; background:rgba(255,255,255,0.5); cursor:pointer; transition:.25s; border:1px solid rgba(255,255,255,.6); }
+.hero-slider-dots .dot.active{ background:var(--secondary); transform:scale(1.2); }
+
+/* ---------- MARQUEE ---------- */
+.marquee-wrap{ width:100%; background:var(--secondary); overflow:hidden; padding:14px 0; border-top:2px solid var(--primary); border-bottom:2px solid var(--primary); }
+.marquee{ display:flex; white-space:nowrap; animation:scroll 26s linear infinite; width:max-content; }
+.marquee span{ color:var(--primary); font-family:'Poppins','Noto Sans Devanagari'; font-weight:700; font-size:16px; padding:0 24px; display:flex; align-items:center; gap:10px; }
+.marquee span:after{ content:'✦'; opacity:.6; margin-left:24px; }
+@keyframes scroll{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
+
+/* ---------- SECTION HEADERS ---------- */
+.sec-head{ padding:80px clamp(16px,5vw,64px) 40px; max-width:900px; }
+.sec-tag{ font-size:12px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--primary); background:rgba(255,204,0,0.2); padding:6px 14px; border-radius:100px; display:inline-block; margin-bottom:14px; }
+.sec-head h2{ font-size:clamp(28px,4.5vw,44px); color:var(--primary); line-height:1.15; }
+.sec-head p{ color:var(--muted); margin-top:14px; font-size:15px; max-width:560px; line-height:1.6; }
+
+/* ---------- SERVICES ---------- */
+.services{
+  padding:0 clamp(16px,5vw,64px) 90px;
+  display:grid; grid-template-columns:repeat(4,1fr); gap:24px;
+}
+.service-card{
+  background:var(--surface); border:2px solid var(--border);
+  border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow-sm);
+  transition:.25s; display:flex; flex-direction:column;
+}
+.service-card:hover{ transform:translateY(-5px); box-shadow:var(--shadow-md); border-color:var(--secondary); }
+.service-img-wrapper{ position:relative; width:100%; height:auto; cursor:pointer; overflow:hidden; aspect-ratio:1/1; background:#f5f5f5; }
+.carousel-track{ display:flex; height:100%; transition:transform 0.3s ease; }
+.carousel-slide{ min-width:100%; height:100%; }
+.carousel-slide img{ width:100%; height:100%; object-fit:cover; }
+.service-img-wrapper .carousel-btn{
+  position:absolute; top:50%; transform:translateY(-50%);
+  background:rgba(94, 0, 0, 0.7); border:none; border-radius:50%; width:28px; height:28px; font-size:18px; font-weight:bold; color:var(--secondary); cursor:pointer; z-index:10;
+}
+.service-img-wrapper .carousel-btn.prev{ left:8px; }
+.service-img-wrapper .carousel-btn.next{ right:8px; }
+.service-img-wrapper .carousel-dots{ position:absolute; bottom:12px; left:50%; transform:translateX(-50%); display:flex; gap:6px; z-index:10; }
+.service-img-wrapper .carousel-dots .dot{ width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,0.4); cursor:pointer; transition:background .3s; }
+.service-img-wrapper .carousel-dots .dot.active{ background:var(--secondary); transform:scale(1.2); }
+.service-content{ padding:20px; display:flex; flex-direction:column; flex:1; }
+.service-content h3{ font-size:15px; color:var(--primary); margin-bottom:8px; line-height:1.3; }
+.service-content p{ font-size:12px; color:var(--muted); line-height:1.5; flex:1; }
+.svc-cta{ margin-top:12px; display:inline-flex; align-items:center; gap:7px; font-size:13px; font-weight:700; color:var(--primary); }
+.svc-cta svg{ width:15px; height:15px; fill:var(--primary); }
+.svc-cta:hover{ color:var(--secondary); }
+
+/* ---------- GALLERY ---------- */
+.g-filters{ display:flex; flex-wrap:wrap; gap:10px; padding:0 clamp(16px,5vw,64px) 30px; }
+.g-filter{
+  background:var(--surface); border:2px solid var(--border); color:var(--muted);
+  font-size:13px; font-weight:600; padding:9px 16px; border-radius:100px; transition:.2s; white-space:nowrap;
+}
+.g-filter:hover{ border-color:var(--secondary); color:var(--primary); }
+.g-filter.active{ background:var(--primary); border-color:var(--primary); color:#fff; }
+.g-item.g-hidden{ display:none; }
+.gallery{ columns:4 220px; column-gap:12px; padding:0 clamp(10px,3vw,30px) 90px; width:100%; }
+.g-item{ break-inside:avoid; margin-bottom:12px; position:relative; border-radius:14px; overflow:hidden; border:2px solid var(--border); }
+.g-item img{ width:100%; display:block; transition:transform .5s; }
+.g-item:hover img{ transform:scale(1.06); }
+.g-overlay{ position:absolute; inset:0; background:linear-gradient(180deg, transparent 40%, rgba(94,0,0,0.95) 100%); display:flex; flex-direction:column; justify-content:flex-end; padding:14px; opacity:0; transition:.25s; }
+.g-item:hover .g-overlay, .g-item:active .g-overlay{ opacity:1; }
+.g-cat{ font-size:11px; font-weight:700; color:var(--secondary); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px; }
+.g-enquire{ background:var(--secondary); color:var(--primary); font-size:12px; font-weight:700; padding:8px 12px; border-radius:8px; display:inline-flex; align-items:center; gap:6px; width:fit-content; }
+.g-enquire svg { width:14px; height:14px; fill:var(--primary); }
+
+/* ---------- BANNER PREVIEW TOOL ---------- */
+.tool-section{ padding:0 clamp(16px,5vw,64px) 90px; display:grid; grid-template-columns:.9fr 1.1fr; gap:36px; align-items:start; }
+.tool-panel{ background:var(--surface); border:2px solid var(--primary); border-radius:22px; padding:clamp(20px,3vw,32px); box-shadow:var(--shadow-sm); }
+.field{ margin-bottom:20px; }
+.field label{ font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--primary); margin-bottom:10px; display:block; }
+select, input[type=number]{ width:100%; background:var(--bg); border:2px solid var(--border); color:var(--text); padding:12px 14px; border-radius:10px; font-size:15px; font-weight:600; }
+.row2{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.slider-row{ display:flex; align-items:center; gap:12px; }
+input[type=range]{ flex:1; accent-color:var(--primary); }
+.range-val{ font-family:'Poppins','Noto Sans Devanagari'; color:var(--primary); font-size:14px; min-width:52px; text-align:right; }
+.frame-stage{ background:radial-gradient(circle at 50% 20%, #f1f5f9, #e2e8f0 70%); border:2px solid var(--primary); border-radius:22px; min-height:420px; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; padding:30px; }
+.hoarding{ position:relative; display:flex; flex-direction:column; align-items:center; }
+.hoarding .frame{ border:14px solid var(--primary); border-radius:4px; box-shadow:0 20px 50px rgba(0,0,0,.4); overflow:hidden; background:#fff; transition:width .3s, height .3s; }
+.hoarding.style-wall .frame{ border:8px solid #78716c; box-shadow:0 10px 30px rgba(0,0,0,.3); }
+.hoarding.style-standee .frame, .hoarding.style-rollup .frame{ border-width:10px; }
+.hoarding .frame img{ width:100%; height:100%; object-fit:cover; display:block; }
+.poles{ display:flex; justify-content:space-between; width:76%; margin-top:0; }
+.pole{ width:10px; height:70px; background:linear-gradient(90deg,var(--primary-dark),var(--primary),var(--primary-dark)); border-radius:2px; }
+.stand-base{ display:none; margin-top:0; }
+.hoarding.style-pole .poles{ display:flex; }
+.hoarding.style-pole .stand-base{ display:none; }
+.hoarding.style-wall .poles{ display:none; }
+.hoarding.style-wall .stand-base{ display:none; }
+.hoarding.style-standee .poles{ display:none; }
+.hoarding.style-standee .stand-base{ display:block; width:26%; height:16px; background:linear-gradient(90deg,var(--primary-dark),var(--primary),var(--primary-dark)); border-radius:3px; }
+.hoarding.style-rollup .poles{ display:none; }
+.hoarding.style-rollup .stand-base{ display:block; width:58%; height:20px; background:linear-gradient(90deg,var(--primary-dark),var(--primary),var(--primary-dark)); border-radius:5px; }
+.upload-zone{ border:2px dashed var(--primary); border-radius:14px; padding:22px 14px; text-align:center; cursor:pointer; transition:.2s; color:var(--muted); background:#fff; }
+.upload-zone svg{ margin-bottom:8px; color:var(--primary); }
+.upload-zone:hover, .upload-zone.drag-over{ border-color:var(--secondary); background:rgba(255,204,0,0.06); color:var(--primary); }
+.reset-btn{ display:flex; align-items:center; justify-content:center; gap:7px; width:100%; margin-top:10px; background:transparent; border:2px solid var(--border); color:var(--muted); font-size:12.5px; font-weight:600; padding:9px 12px; border-radius:10px; transition:.2s; }
+.reset-btn:hover{ border-color:var(--primary); color:var(--primary); }
+.size-tag{ margin-top:16px; background:var(--secondary); border:2px solid var(--primary); color:var(--primary); padding:7px 16px; border-radius:100px; font-family:'Poppins','Noto Sans Devanagari'; font-size:14px; font-weight:700; }
+
+/* ---------- PRICING ---------- */
+.pricing-wrap{ padding:0 clamp(16px,5vw,64px) 100px; }
+.price-card{ background:linear-gradient(160deg, #ffffff, #fffcf5); border:2px solid var(--primary); border-radius:26px; padding:clamp(24px,4vw,44px); display:grid; grid-template-columns:1fr 1fr; gap:36px; align-items:center; position:relative; overflow:hidden; box-shadow:var(--shadow-md); }
+.price-card::after{ content:''; position:absolute; width:400px; height:400px; background:radial-gradient(circle, rgba(255,204,0,.15), transparent 70%); top:-150px; right:-150px; }
+.total-box{ text-align:center; padding:30px 20px; background:var(--bg); border-radius:20px; border:2px dashed var(--secondary); }
+.total-box .label{ font-size:12px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); }
+.total-box .amount{ font-family:'Poppins','Noto Sans Devanagari'; font-size:clamp(38px,5vw,54px); color:var(--primary); margin:10px 0; }
+.total-box .btn-primary{ margin-top:18px; width:100%; justify-content:center; }
+
+/* ---------- TRUST ---------- */
+.about-grid{ padding:0 clamp(16px,5vw,64px) 90px; display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+.about-card{ background:var(--surface); border:2px solid var(--border); border-radius:var(--radius); padding:30px 26px; box-shadow:var(--shadow-sm); }
+.about-card .ic{ width:24px; height:24px; margin-bottom:16px; color:var(--secondary); }
+.about-card .ic svg{ width:100%; height:100%; fill:var(--secondary); }
+.about-card h3{ font-size:17px; color:var(--primary); margin-bottom:8px; }
+.about-card p{ font-size:13.5px; color:var(--muted); line-height:1.6; }
+.trust{ padding:0 clamp(16px,5vw,64px) 100px; display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+.trust .card{ text-align:center; padding:30px 16px; border:2px solid var(--border); border-radius:18px; background:var(--surface); box-shadow:var(--shadow-sm); }
+.trust .card b{ display:block; font-family:'Poppins','Noto Sans Devanagari'; font-size:26px; color:var(--secondary); margin-bottom:6px; }
+.trust .card span{ font-size:13px; color:var(--muted); }
+
+/* ---------- FOOTER ---------- */
+footer{ background:var(--primary); padding:60px clamp(16px,5vw,64px) 100px; border-top:4px solid var(--secondary); }
+.foot-grid{ display:grid; grid-template-columns:1.3fr 1fr 1fr; gap:40px; margin-bottom:40px; }
+.foot-grid h4{ color:var(--secondary); font-size:14px; margin-bottom:16px; letter-spacing:1px; text-transform:uppercase; }
+.foot-grid p, .foot-grid a{ color:rgba(255,255,255,0.8); font-size:14px; line-height:2; display:block; }
+.foot-grid a:hover{ color:var(--secondary); }
+.foot-icon-link{ display:flex !important; align-items:center; gap:9px; }
+.foot-icon-link svg { width:16px; height:16px; flex-shrink:0; }
+.map-embed{ width:100%; height:260px; border-radius:var(--radius); overflow:hidden; margin-bottom:34px; border:2px solid var(--secondary); }
+.map-embed iframe{ width:100%; height:100%; display:block; }
+.copyright{ text-align:center; font-size:12.5px; color:rgba(255,255,255,0.6); padding-top:24px; border-top:1px solid rgba(255,255,255,0.1); }
+
+.wa-float{ position:fixed; bottom:22px; right:18px; z-index:900; background:#22c55e; width:56px; height:56px; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 10px 30px rgba(34,197,94,.4); animation:pulse 2.4s infinite; }
+.wa-float svg { width:28px; height:28px; fill:#fff; }
+@keyframes pulse{ 0%{box-shadow:0 0 0 0 rgba(34,197,94,.5);} 70%{box-shadow:0 0 0 16px rgba(34,197,94,0);} 100%{box-shadow:0 0 0 0 rgba(34,197,94,0);} }
+
+/* ---------- MODAL & POPUP CSS ---------- */
+.modal-overlay { position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(94,0,0,0.9); z-index:9999; display:none; align-items:center; justify-content:center; padding:20px; }
+.modal-content { position:relative; max-width:80vw; max-height:80vh; width:100%; background:#fff; border-radius:var(--radius); padding:30px 50px; display:flex; flex-direction:column; align-items:center; justify-content:center; box-shadow:0 30px 60px rgba(0,0,0,0.5); }
+.modal-close { position:absolute; top:-40px; right:0; color:#fff; font-size:40px; cursor:pointer; line-height:1; font-weight:300; }
+.modal-carousel-wrapper { position:relative; width:100%; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+.modal-track { display:flex; transition:transform 0.3s ease; width:100%; }
+.modal-slide { min-width:100%; display:flex; justify-content:center; align-items:center; }
+.modal-slide img { max-height:65vh; max-width:100%; object-fit:contain; border-radius:8px; }
+.modal-prev, .modal-next { position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.5); color:#fff; border:none; font-size:30px; padding:12px 20px; cursor:pointer; border-radius:50%; transition:all 0.2s; line-height:1; }
+.modal-prev:hover, .modal-next:hover { background:var(--primary); }
+.modal-prev { left:-60px; } .modal-next { right:-60px; }
+.modal-dots { display:flex; gap:10px; margin-top:20px; }
+.modal-dot { width:12px; height:12px; border-radius:50%; background:#ccc; cursor:pointer; transition:0.2s; }
+.modal-dot.active { background:var(--secondary); transform:scale(1.2); }
+
+/* ---------- RESPONSIVE ---------- */
+.mm-lang-toggle{ display:inline-flex; align-self:flex-start; }
+@media (max-width:980px){
+  .nav-links{ display:none; } .nav-lang-toggle{ display:none; } .burger{ display:flex; }
+  .hero-grid{ grid-template-columns:1fr; text-align:left; } .hero-visual{ order:-1; margin-bottom:10px; } .hero-slider{ max-width:280px; }
+  .services{ grid-template-columns:repeat(2,1fr); } .about-grid{ grid-template-columns:1fr 1fr; } .tool-section{ grid-template-columns:1fr; }
+  .price-card{ grid-template-columns:1fr; } .trust{ grid-template-columns:repeat(2,1fr); } .foot-grid{ grid-template-columns:1fr; gap:26px; }
+  .gallery{ columns:2 160px; } .modal-prev { left:10px; } .modal-next { right:10px; } .modal-content { padding:20px 10px; max-width:95vw; }
+}
+@media (max-width:600px){
+  .services, .about-grid, .trust, .gallery{ grid-template-columns:1fr; columns:1; } .tool-section, .price-card, .foot-grid{ grid-template-columns:1fr; }
+  .hero-grid{ grid-template-columns:1fr; } .hero-slider{ max-width:100%; } .hero-stats{ gap:18px; justify-content:space-between; }
+  .stat b{ font-size:22px; } .stat span{ font-size:10px; } .frame-stage{ min-height:300px; padding:16px; } .g-filter{ padding:8px 12px; font-size:11px; }
+  .hero-badges{ gap:8px 16px; }
+}
+</style>
+</head>
+<body class="lang-mr">
+
+<!-- COMPLETE FIXED SVG SPRITE LIBRARY -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+<symbol id="i-whatsapp" viewBox="0 0 32 32"><path fill="currentColor" d="M16.001 3C9.373 3 4 8.373 4 15c0 2.386.702 4.607 1.909 6.472L4 29l7.72-1.867A11.94 11.94 0 0 0 16.001 27C22.628 27 28 21.627 28 15S22.628 3 16.001 3zm0 21.6c-1.98 0-3.833-.55-5.412-1.505l-.388-.23-4.58 1.107 1.128-4.468-.253-.397A9.564 9.564 0 0 1 5.4 15c0-5.85 4.75-10.6 10.6-10.6S26.6 9.15 26.6 15 21.85 24.6 16 24.6zm5.79-7.95c-.317-.159-1.874-.925-2.165-1.031-.29-.106-.502-.159-.714.159-.211.317-.82 1.031-1.005 1.243-.185.211-.37.238-.687.079-.317-.159-1.338-.493-2.549-1.571-.943-.841-1.58-1.878-1.765-2.195-.185-.317-.02-.489.139-.647.143-.142.317-.37.476-.555.159-.185.211-.317.317-.529.106-.211.053-.397-.026-.555-.079-.159-.714-1.719-.978-2.354-.258-.62-.52-.536-.714-.546l-.608-.011c-.211 0-.555.079-.846.397-.29.317-1.11 1.084-1.11 2.644 0 1.56 1.136 3.066 1.294 3.278.159.211 2.237 3.417 5.42 4.79.758.327 1.35.523 1.812.669.761.242 1.454.208 2.002.126.611-.091 1.874-.766 2.138-1.505.264-.74.264-1.373.185-1.505-.079-.132-.29-.211-.607-.37z"/></symbol>
+<symbol id="i-phone" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.902.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.908.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+<symbol id="i-instagram" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></g></symbol>
+<symbol id="i-pin" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></g></symbol>
+<symbol id="i-printer" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></g></symbol>
+<symbol id="i-award" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M8.21 13.89 7 23l5-3 5 3-1.21-9.12"/></g></symbol>
+<symbol id="i-quote" viewBox="0 0 24 24"><g fill="currentColor"><path d="M7.17 6A5.17 5.17 0 0 0 2 11.17V18h6.83v-6.83H5.17a2.5 2.5 0 0 1 2.5-2.5V6z"/><path d="M17.17 6A5.17 5.17 0 0 0 12 11.17V18h6.83v-6.83h-3.66a2.5 2.5 0 0 1 2.5-2.5V6z"/></g></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M20 6 9 17l-5-5"/></symbol>
+<symbol id="i-bolt" viewBox="0 0 24 24"><path fill="currentColor" d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></symbol>
+</defs>
+</svg>
+
+<div id="mobile-menu" style="display:none; position:fixed; inset:0; background:var(--primary); z-index:1200; padding:100px 30px; flex-direction:column; gap:24px;">
+  <a href="#gallery" class="mm-link" style="font-size:22px; font-family:'Poppins','Noto Sans Devanagari'; color:#ffffff;">गॅलरी</a>
+  <a href="#tool" class="mm-link" style="font-size:22px; font-family:'Poppins','Noto Sans Devanagari'; color:#ffffff;">बॅनर प्रिव्ह्यू</a>
+  <a href="#pricing" class="mm-link" style="font-size:22px; font-family:'Poppins','Noto Sans Devanagari'; color:#ffffff;">दर</a>
+  <a href="#contact" class="mm-link" style="font-size:22px; font-family:'Poppins','Noto Sans Devanagari'; color:#ffffff;">संपर्क</a>
+  <div class="lang-toggle mm-lang-toggle" style="border-color:var(--secondary);">
+    <button class="lang-btn active" data-lang="mr" onclick="setLang('mr')">मरा</button>
+    <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+  </div>
+  <button onclick="closeMenu()" style="position:absolute; top:26px; right:26px; background:none; border:none; color:#fff; width:26px; height:26px;" aria-label="Close menu"><svg width="26" height="26"><line x1="18" y1="6" x2="6" y2="18" stroke="#fff" stroke-width="2"/><line x1="6" y1="6" x2="18" y2="18" stroke="#fff" stroke-width="2"/></svg></button>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="logo">
+    <img src="images/logo1.png" onerror="this.src='https://placehold.co/200x60/5e0000/ffc900?text=Akash+Lavate'" alt="Business Logo">
+  </div>
+  <div class="nav-right-group">
+    <div class="nav-links">
+      <a href="#gallery">गॅलरी</a>
+      <a href="#tool">बॅनर प्रिव्ह्यू</a>
+      <a href="#pricing">दर</a>
+      <a href="#contact">संपर्क</a>
+    </div>
+    <div class="nav-right">
+      <div class="lang-toggle nav-lang-toggle">
+        <button class="lang-btn active" data-lang="mr" onclick="setLang('mr')">मरा</button>
+        <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+      </div>
+      <a class="wa-btn" target="_blank" href="https://wa.me/7350471428?text=नमस्कार!%20मला%20प्रिंटिंग%20सेवेबद्दल%20माहिती%20हवी%20आहे.">
+        <span class="icon-svg" style="width:15px;height:15px;color:#fff;"><svg><use href="#i-whatsapp"/></svg></span> चौकशी
+      </a>
+      <button class="burger" onclick="openMenu()"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <span class="eyebrow">ग्राफिक्स & फ्लेक्स प्रिंटिंग</span>
+      <h1>
+        <span class="mr">दर्जेदार प्रिंट, योग्य दरात<br><span class="accent">तुमचा विश्वासू पार्टनर</span></span>
+        <span class="en">Premium Print Quality, Fair Prices<br><span class="accent">Your Trusted Print Partner</span></span>
+      </h1>
+      <p class="sub mr">इतरांपेक्षा हटके डिझाईन व प्रीमियम क्वालिटी प्रिंटींग, तेही अगदी योग्य दरात. फ्रेमसह तुम्ही सांगाल त्याच ठिकाणी इन्स्टॉल करून देतो.</p>
+      <p class="sub en">Standout designs & premium print quality at fair prices. Delivered and installed right where you need them, frame included!</p>
+
+      <div class="hero-badges">
+        <div class="hero-badge"><span class="icon-svg"><svg><use href="#i-award"/></svg></span><span class="mr">७+ वर्षांचा अनुभव</span><span class="en">7+ Years Experience</span></div>
+        <div class="hero-badge"><span class="icon-svg"><svg><use href="#i-bolt"/></svg></span><span class="mr">२४ तासात डिलिव्हरी</span><span class="en">24hr Delivery</span></div>
+        <div class="hero-badge"><span class="icon-svg"><svg><use href="#i-check"/></svg></span><span class="mr">फ्री इन्स्टॉलेशन</span><span class="en">Free Installation</span></div>
+      </div>
+
+      <div class="hero-ctas">
+        <a class="btn-primary" target="_blank" href="https://wa.me/7350471428?text=नमस्कार!%20मला%20प्रिंटिंग%20सेवेबद्दल%20माहिती%20हवी%20आहे.">
+          <span class="icon-svg" style="width:17px;height:17px;fill:#5e0000;"><svg><use href="#i-whatsapp"/></svg></span>WhatsApp वर चौकशी करा</a>
+        <a class="btn-secondary" href="#gallery">आमचे काम पहा <span>→</span></a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><b>500+</b><span>प्रोजेक्ट्स</span></div>
+        <div class="stat"><b>7+</b><span>वर्षांचा अनुभव</span></div>
+        <div class="stat"><b>24hr</b><span>जलद डिलिव्हरी</span></div>
+      </div>
+    </div>
+
+    <!-- 3-slide rotating hero showcase -->
+    <div class="hero-visual">
+      <div class="hero-slider" id="heroSlider">
+        <div class="hero-slide active" data-slide="0">
+          <img src="https://i.pinimg.com/736x/5c/a4/b0/5ca4b0af2356b1e7c71a8002b31167e1.jpg" alt="Large format flex printing" onerror="this.parentElement.classList.add('img-missing'); this.remove();">
+          <div class="hero-slide-caption mr">लार्ज फॉरमॅट फ्लेक्स प्रिंटिंग</div>
+          <div class="hero-slide-caption en" style="display:none;">Large Format Flex Printing</div>
+        </div>
+        <div class="hero-slide" data-slide="1">
+          <img src="https://i.pinimg.com/736x/86/c8/48/86c848d62e8eecb00f06153a56a910d4.jpg" alt="On-site hoarding installation" onerror="this.parentElement.classList.add('img-missing'); this.remove();">
+          <div class="hero-slide-caption mr">ऑन-साईट होर्डिंग इन्स्टॉलेशन</div>
+          <div class="hero-slide-caption en" style="display:none;">On-site Hoarding Installation</div>
+        </div>
+        <div class="hero-slide" data-slide="2">
+          <img src="https://i.pinimg.com/1200x/55/55/3d/55553dbd6dfb8bad093ddfcaf7c5e982.jpg" alt="Custom design studio" onerror="this.parentElement.classList.add('img-missing'); this.remove();">
+          <div class="hero-slide-caption mr">१००% कस्टम डिझाईन स्टुडिओ</div>
+          <div class="hero-slide-caption en" style="display:none;">100% Custom Design Studio</div>
+        </div>
+        <div class="hero-slider-dots" id="heroDots">
+          <span class="dot active" onclick="heroGoTo(0)"></span>
+          <span class="dot" onclick="heroGoTo(1)"></span>
+          <span class="dot" onclick="heroGoTo(2)"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee-wrap">
+  <div class="marquee">
+    <span>फ्लेक्स प्रिंट</span><span>शॉप बोर्ड</span><span>लग्न पत्रिका</span><span>वाढदिवस डिझाईन</span><span>एल.ई.डी. बोर्ड</span><span>सोशल मिडिया</span><span>पॅम्पलेट</span>
+    <span>फ्लेक्स प्रिंट</span><span>शॉप बोर्ड</span><span>लग्न पत्रिका</span><span>वाढदिवस डिझाईन</span><span>एल.ई.डी. बोर्ड</span><span>सोशल मिडिया</span><span>पॅम्पलेट</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<div class="sec-head">
+  <span class="sec-tag">सेवा</span>
+  <h2 class="mr">एका छताखाली संपूर्ण ब्रँडिंग सोल्यूशन</h2>
+  <h2 class="en">Complete Branding Solutions Under One Roof</h2>
+</div>
+<div class="services" id="services-data">
+  <!-- Service 1 -->
+  <div class="service-card">
+    <div class="service-img-wrapper" onclick="openModal('track-print')">
+      <div class="carousel-track" id="track-print"><div class="carousel-slide"><img src="images/img1.jpg" onerror="this.src='https://placehold.co/400x400/5e0000/ffc900?text=Regular+Print'"></div></div>
+      <div class="carousel-dots" id="dots-print"><span class="dot active" onclick="event.stopPropagation(); goToSlide('track-print', 0)"></span></div>
+    </div>
+    <div class="service-content"><h3>रेगुलर प्रिंट</h3><p>दैनंदिन व्यवसायासाठी उच्च दर्जाचे प्रिंटींग.</p><a class="svc-cta" target="_blank" href="https://wa.me/7350471428?text=Regular%20Print%20ची%20चौकशी"><svg><use href="#i-whatsapp"/></svg> चौकशी</a></div>
+  </div>
+  <!-- Service 2 -->
+  <div class="service-card">
+    <div class="service-img-wrapper" onclick="openModal('track-star')">
+      <div class="carousel-track" id="track-star"><div class="carousel-slide"><img src="images/img2.jpg" onerror="this.src='https://placehold.co/400x400/ffc900/5e0000?text=Star+Print'"></div></div>
+      <div class="carousel-dots" id="dots-star"><span class="dot active" onclick="event.stopPropagation(); goToSlide('track-star', 0)"></span></div>
+    </div>
+    <div class="service-content"><h3>स्टार प्रिंट</h3><p>खास कार्यक्रम आणि उत्सवांसाठी चकचकीत प्रिंट.</p><a class="svc-cta" target="_blank" href="https://wa.me/7350471428?text=Star%20Print%20ची%20चौकशी"><svg><use href="#i-whatsapp"/></svg> चौकशी</a></div>
+  </div>
+  <!-- Service 3 -->
+  <div class="service-card">
+    <div class="service-img-wrapper" onclick="openModal('track-block')">
+      <div class="carousel-track" id="track-block"><div class="carousel-slide"><img src="images/img3.jpg" onerror="this.src='https://placehold.co/400x400/5e0000/ffc900?text=Block+Star'"></div></div>
+      <div class="carousel-dots" id="dots-block"><span class="dot active" onclick="event.stopPropagation(); goToSlide('track-block', 0)"></span></div>
+    </div>
+    <div class="service-content"><h3>ब्लॉक स्टार प्रिंट</h3><p>मोठ्या प्रमाणातील इव्हेंट्स आणि बॅनर्ससाठी आदर्श.</p><a class="svc-cta" target="_blank" href="https://wa.me/7350471428?text=Block%20Star%20Print%20ची%20चौकशी"><svg><use href="#i-whatsapp"/></svg> चौकशी</a></div>
+  </div>
+  <!-- Service 4 -->
+  <div class="service-card">
+    <div class="service-img-wrapper" onclick="openModal('track-van')">
+      <div class="carousel-track" id="track-van"><div class="carousel-slide"><img src="images/img4.jpg" onerror="this.src='https://placehold.co/400x400/ffc900/5e0000?text=VAN+VE+VIHAN'"></div></div>
+      <div class="carousel-dots" id="dots-van"><span class="dot active" onclick="event.stopPropagation(); goToSlide('track-van', 0)"></span></div>
+    </div>
+    <div class="service-content"><h3>वन-वे-व्हिजन प्रिंट</h3><p>दोन्ही बाजूंनी दिसणारे अनोखे प्रिंटींग सोल्यूशन.</p><a class="svc-cta" target="_blank" href="https://wa.me/7350471428?text=Van-Ve-Vihan%20Print%20ची%20चौकशी"><svg><use href="#i-whatsapp"/></svg> चौकशी</a></div>
+  </div>
+  <!-- Service 5 -->
+  <div class="service-card">
+    <div class="service-img-wrapper" onclick="openModal('track-vinyl')">
+      <div class="carousel-track" id="track-vinyl"><div class="carousel-slide"><img src="images/img5.jpg" onerror="this.src='https://placehold.co/400x400/5e0000/ffc900?text=Vinyl+Print'"></div></div>
+      <div class="carousel-dots" id="dots-vinyl"><span class="dot active" onclick="event.stopPropagation(); goToSlide('track-vinyl', 0)"></span></div>
+    </div>
+    <div class="service-content"><h3>व्हिनाईल प्रिंट</h3><p>हवामान प्रतिरोधक, टिकाऊ आणि आकर्षक व्हिनाईल.</p><a class="svc-cta" target="_blank" href="https://wa.me/7350471428?text=Vinyl%20Print%20ची%20चौकशी"><svg><use href="#i-whatsapp"/></svg> चौकशी</a></div>
+  </div>
+  <!-- Service 6 -->
+  <div class="service-card">
+    <div class="service-img-wrapper" onclick="openModal('track-shop')">
+      <div class="carousel-track" id="track-shop"><div class="carousel-slide"><img src="images/img6.jpg" onerror="this.src='https://placehold.co/400x400/ffc900/5e0000?text=Shop+Board'"></div></div>
+      <div class="carousel-dots" id="dots-shop"><span class="dot active" onclick="event.stopPropagation(); goToSlide('track-shop', 0)"></span></div>
+    </div>
+    <div class="service-content"><h3>शॉप बोर्ड</h3><p>दुकान आणि शोरूमसाठी ब्रँडेड आउटडोअर साईनेज.</p><a class="svc-cta" target="_blank" href="https://wa.me/7350471428?text=Shop%20Board%20ची%20चौकशी"><svg><use href="#i-whatsapp"/></svg> चौकशी</a></div>
+  </div>
+  <!-- Service 7 -->
+  <div class="service-card">
+    <div class="service-img-wrapper" onclick="openModal('track-led')">
+      <div class="carousel-track" id="track-led"><div class="carousel-slide"><img src="images/img7.jpg" onerror="this.src='https://placehold.co/400x400/5e0000/ffc900?text=LED+Board'"></div></div>
+      <div class="carousel-dots" id="dots-led"><span class="dot active" onclick="event.stopPropagation(); goToSlide('track-led', 0)"></span></div>
+    </div>
+    <div class="service-content"><h3>एल.ई.डी. बोर्ड</h3><p>रात्रीच्या वेळीही उजळणारे आकर्षक एलईडी साईनबोर्ड.</p><a class="svc-cta" target="_blank" href="https://wa.me/7350471428?text=LED%20Board%20ची%20चौकशी"><svg><use href="#i-whatsapp"/></svg> चौकशी</a></div>
+  </div>
+  <!-- Service 8 -->
+  <div class="service-card">
+    <div class="service-img-wrapper" onclick="openModal('track-sign')">
+      <div class="carousel-track" id="track-sign"><div class="carousel-slide"><img src="images/img8.jpg" onerror="this.src='https://placehold.co/400x400/ffc900/5e0000?text=Sign+Board'"></div></div>
+      <div class="carousel-dots" id="dots-sign"><span class="dot active" onclick="event.stopPropagation(); goToSlide('track-sign', 0)"></span></div>
+    </div>
+    <div class="service-content"><h3>साईन बोर्ड</h3><p>व्यावसायिक आणि कॉर्पोरेट ठिकाणांसाठी उत्तम साईनेज.</p><a class="svc-cta" target="_blank" href="https://wa.me/7350471428?text=Sign%20Board%20ची%20चौकशी"><svg><use href="#i-whatsapp"/></svg> चौकशी</a></div>
+  </div>
+  <!-- Service 9 -->
+  <div class="service-card">
+    <div class="service-img-wrapper" onclick="openModal('track-backlit')">
+      <div class="carousel-track" id="track-backlit"><div class="carousel-slide"><img src="images/img9.jpg" onerror="this.src='https://placehold.co/400x400/5e0000/ffc900?text=Backlit'"></div></div>
+      <div class="carousel-dots" id="dots-backlit"><span class="dot active" onclick="event.stopPropagation(); goToSlide('track-backlit', 0)"></span></div>
+    </div>
+    <div class="service-content"><h3>बॅकलाईट प्रिंट</h3><p>मागील प्रकाशासह चमकणारे प्रीमियम प्रिंट.</p><a class="svc-cta" target="_blank" href="https://wa.me/7350471428?text=Backlit%20Print%20ची%20चौकशी"><svg><use href="#i-whatsapp"/></svg> चौकशी</a></div>
+  </div>
+  <!-- Service 10 -->
+  <div class="service-card">
+    <div class="service-img-wrapper" onclick="openModal('track-pamphlet')">
+      <div class="carousel-track" id="track-pamphlet"><div class="carousel-slide"><img src="images/img10.jpg" onerror="this.src='https://placehold.co/400x400/ffc900/5e0000?text=Pamphlet'"></div></div>
+      <div class="carousel-dots" id="dots-pamphlet"><span class="dot active" onclick="event.stopPropagation(); goToSlide('track-pamphlet', 0)"></span></div>
+    </div>
+    <div class="service-content"><h3>पॅम्पलेट</h3><p>आकर्षक आणि माहितीपूर्ण पॅम्पलेट डिझाईन्स.</p><a class="svc-cta" target="_blank" href="https://wa.me/7350471428?text=Pamphlet%20ची%20चौकशी"><svg><use href="#i-whatsapp"/></svg> चौकशी</a></div>
+  </div>
+  <!-- Service 11 -->
+  <div class="service-card">
+    <div class="service-img-wrapper" onclick="openModal('track-foam')">
+      <div class="carousel-track" id="track-foam"><div class="carousel-slide"><img src="images/img11.jpg" onerror="this.src='https://placehold.co/400x400/5e0000/ffc900?text=Foam+Sheet'"></div></div>
+      <div class="carousel-dots" id="dots-foam"><span class="dot active" onclick="event.stopPropagation(); goToSlide('track-foam', 0)"></span></div>
+    </div>
+    <div class="service-content"><h3>फोम शीट्स प्रिंट</h3><p>हलक्या वजनाच्या, टिकाऊ फोम शीट्सवर उच्च दर्जाचे प्रिंट.</p><a class="svc-cta" target="_blank" href="https://wa.me/7350471428?text=Foam%20Sheets%20Print%20ची%20चौकशी"><svg><use href="#i-whatsapp"/></svg> चौकशी</a></div>
+  </div>
+  <!-- Service 12 -->
+  <div class="service-card">
+    <div class="service-img-wrapper" onclick="openModal('track-visiting')">
+      <div class="carousel-track" id="track-visiting"><div class="carousel-slide"><img src="images/img12.jpg" onerror="this.src='https://placehold.co/400x400/ffc900/5e0000?text=Visiting+Card'"></div></div>
+      <div class="carousel-dots" id="dots-visiting"><span class="dot active" onclick="event.stopPropagation(); goToSlide('track-visiting', 0)"></span></div>
+    </div>
+    <div class="service-content"><h3>व्हिजिटिंग कार्ड</h3><p>व्यवसायासाठी स्टायलिश आणि प्रभावी व्हिजिटिंग कार्ड्स.</p><a class="svc-cta" target="_blank" href="https://wa.me/7350471428?text=Visiting%20Card%20ची%20चौकशी"><svg><use href="#i-whatsapp"/></svg> चौकशी</a></div>
+  </div>
+  <!-- Service 13 -->
+  <div class="service-card">
+    <div class="service-img-wrapper" onclick="openModal('track-billbook')">
+      <div class="carousel-track" id="track-billbook"><div class="carousel-slide"><img src="images/img13.jpg" onerror="this.src='https://placehold.co/400x400/5e0000/ffc900?text=Billbook'"></div></div>
+      <div class="carousel-dots" id="dots-billbook"><span class="dot active" onclick="event.stopPropagation(); goToSlide('track-billbook', 0)"></span></div>
+    </div>
+    <div class="service-content"><h3>बिलबुक</h3><p>व्यवसायिक व्यवहारांसाठी कस्टम प्रिंटेड बिलबुक.</p><a class="svc-cta" target="_blank" href="https://wa.me/7350471428?text=Billbook%20ची%20चौकशी"><svg><use href="#i-whatsapp"/></svg> चौकशी</a></div>
+  </div>
+  <!-- Service 14 -->
+  <div class="service-card">
+    <div class="service-img-wrapper" onclick="openModal('track-trophy')">
+      <div class="carousel-track" id="track-trophy"><div class="carousel-slide"><img src="images/img6.jpg" onerror="this.src='https://placehold.co/400x400/ffc900/5e0000?text=Trophy'"></div></div>
+      <div class="carousel-dots" id="dots-trophy"><span class="dot active" onclick="event.stopPropagation(); goToSlide('track-trophy', 0)"></span></div>
+    </div>
+    <div class="service-content"><h3>ट्रॉफी</h3><p>सन्मान आणि पुरस्कारासाठी डिझाईन केलेल्या खास ट्रॉफी.</p><a class="svc-cta" target="_blank" href="https://wa.me/7350471428?text=Trophy%20ची%20चौकशी"><svg><use href="#i-whatsapp"/></svg> चौकशी</a></div>
+  </div>
+  <!-- Service 15 -->
+  <div class="service-card">
+    <div class="service-img-wrapper" onclick="openModal('track-wedding')">
+      <div class="carousel-track" id="track-wedding"><div class="carousel-slide"><img src="images/img8.jpg" onerror="this.src='https://placehold.co/400x400/5e0000/ffc900?text=Wedding+Card'"></div></div>
+      <div class="carousel-dots" id="dots-wedding"><span class="dot active" onclick="event.stopPropagation(); goToSlide('track-wedding', 0)"></span></div>
+    </div>
+    <div class="service-content"><h3>लग्न पत्रिका</h3><p>लग्न आणि साखरपुड्यांसाठी पारंपरिक आणि मॉडर्न डिझाईन.</p><a class="svc-cta" target="_blank" href="https://wa.me/7350471428?text=Wedding%20Card%20ची%20चौकशी"><svg><use href="#i-whatsapp"/></svg> चौकशी</a></div>
+  </div>
+  <!-- Service 16 -->
+  <div class="service-card">
+    <div class="service-img-wrapper" onclick="openModal('track-birthday')">
+      <div class="carousel-track" id="track-birthday"><div class="carousel-slide"><img src="images/img12.jpg" onerror="this.src='https://placehold.co/400x400/ffc900/5e0000?text=Birthday'"></div></div>
+      <div class="carousel-dots" id="dots-birthday"><span class="dot active" onclick="event.stopPropagation(); goToSlide('track-birthday', 0)"></span></div>
+    </div>
+    <div class="service-content"><h3>वाढदिवस डिझाईन</h3><p>वैयक्तिकृत आणि आनंददायी वाढदिवस बॅनर आणि पोस्टर्स.</p><a class="svc-cta" target="_blank" href="https://wa.me/7350471428?text=Birthday%20Design%20ची%20चौकशी"><svg><use href="#i-whatsapp"/></svg> चौकशी</a></div>
+  </div>
+  <!-- Service 17 -->
+  <div class="service-card">
+    <div class="service-img-wrapper" onclick="openModal('track-festival')">
+      <div class="carousel-track" id="track-festival"><div class="carousel-slide"><img src="images/img2.jpg" onerror="this.src='https://placehold.co/400x400/5e0000/ffc900?text=Festival'"></div></div>
+      <div class="carousel-dots" id="dots-festival"><span class="dot active" onclick="event.stopPropagation(); goToSlide('track-festival', 0)"></span></div>
+    </div>
+    <div class="service-content"><h3>सण-उत्सव डिझाईन</h3><p>सर्व सण आणि उत्सवांसाठी विशेष अभिनव डिझाईन्स.</p><a class="svc-cta" target="_blank" href="https://wa.me/7350471428?text=Festival%20Design%20ची%20चौकशी"><svg><use href="#i-whatsapp"/></svg> चौकशी</a></div>
+  </div>
+  <!-- Service 18 -->
+  <div class="service-card">
+    <div class="service-img-wrapper" onclick="openModal('track-video')">
+      <div class="carousel-track" id="track-video"><div class="carousel-slide"><img src="images/img10.jpg" onerror="this.src='https://placehold.co/400x400/ffc900/5e0000?text=Video+Invite'"></div></div>
+      <div class="carousel-dots" id="dots-video"><span class="dot active" onclick="event.stopPropagation(); goToSlide('track-video', 0)"></span></div>
+    </div>
+    <div class="service-content"><h3>निमंत्रण व्हिडिओ</h3><p>डिजिटल युगातील आकर्षक निमंत्रण व्हिडिओ.</p><a class="svc-cta" target="_blank" href="https://wa.me/7350471428?text=Invitation%20Video%20ची%20चौकशी"><svg><use href="#i-whatsapp"/></svg> चौकशी</a></div>
+  </div>
+  <!-- Service 19 -->
+  <div class="service-card">
+    <div class="service-img-wrapper" onclick="openModal('track-patrika')">
+      <div class="carousel-track" id="track-patrika"><div class="carousel-slide"><img src="images/img5.jpg" onerror="this.src='https://placehold.co/400x400/5e0000/ffc900?text=Patrika'"></div></div>
+      <div class="carousel-dots" id="dots-patrika"><span class="dot active" onclick="event.stopPropagation(); goToSlide('track-patrika', 0)"></span></div>
+    </div>
+    <div class="service-content"><h3>निमंत्रण पत्रिका</h3><p>मंगल कार्यांसाठी देखण्या डिझाईन केलेल्या पत्रिका.</p><a class="svc-cta" target="_blank" href="https://wa.me/7350471428?text=Invitation%20Patrika%20ची%20चौकशी"><svg><use href="#i-whatsapp"/></svg> चौकशी</a></div>
+  </div>
+  <!-- Service 20 -->
+  <div class="service-card">
+    <div class="service-img-wrapper" onclick="openModal('track-social')">
+      <div class="carousel-track" id="track-social"><div class="carousel-slide"><img src="images/img1.jpg" onerror="this.src='https://placehold.co/400x400/ffc900/5e0000?text=Social+Media'"></div></div>
+      <div class="carousel-dots" id="dots-social"><span class="dot active" onclick="event.stopPropagation(); goToSlide('track-social', 0)"></span></div>
+    </div>
+    <div class="service-content"><h3>सोशल मिडिया डिझाईन</h3><p>इन्स्टाग्राम, फेसबुक आणि इतर प्लॅटफॉर्मसाठी क्रिएटिव्ह ग्राफिक्स.</p><a class="svc-cta" target="_blank" href="https://wa.me/7350471428?text=Social%20Media%20Design%20ची%20चौकशी"><svg><use href="#i-whatsapp"/></svg> चौकशी</a></div>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<div class="sec-head" id="gallery">
+  <span class="sec-tag">पोर्टफोलिओ</span>
+  <h2 class="mr">आमचं अलीकडचं काम</h2>
+  <h2 class="en">Our Recent Work</h2>
+  <p class="mr">प्रत्येक डिझाईन १००% कस्टम बनवलेलं आहे.</p>
+</div>
+<div class="g-filters" id="galleryFilters">
+  <button class="g-filter active" data-filter="all">सर्व</button>
+  <button class="g-filter" data-filter="print">प्रिंट</button>
+  <button class="g-filter" data-filter="board">बोर्ड</button>
+  <button class="g-filter" data-filter="card">कार्ड</button>
+  <button class="g-filter" data-filter="design">डिझाईन</button>
+</div>
+<div class="gallery" id="galleryGrid">
+  <div class="g-item" data-cat="print"><img src="images/img1.jpg" alt=""><div class="g-overlay"><span class="g-cat">प्रिंट</span><a class="g-enquire" target="_blank" href="https://wa.me/7350471428?text=Print%20Image%20ची%20चौकशी"><svg style="width:14px;height:14px;fill:var(--primary);"><use href="#i-whatsapp"/></svg> चौकशी</a></div></div>
+  <div class="g-item" data-cat="board"><img src="images/img2.jpg" alt=""><div class="g-overlay"><span class="g-cat">बोर्ड</span><a class="g-enquire" target="_blank" href="https://wa.me/7350471428?text=Board%20Image%20ची%20चौकशी"><svg style="width:14px;height:14px;fill:var(--primary);"><use href="#i-whatsapp"/></svg> चौकशी</a></div></div>
+  <div class="g-item" data-cat="print"><img src="images/img3.jpg" alt=""><div class="g-overlay"><span class="g-cat">प्रिंट</span><a class="g-enquire" target="_blank" href="https://wa.me/7350471428?text=Star%20Print%20ची%20चौकशी"><svg style="width:14px;height:14px;fill:var(--primary);"><use href="#i-whatsapp"/></svg> चौकशी</a></div></div>
+  <div class="g-item" data-cat="design"><img src="images/img4.jpg" alt=""><div class="g-overlay"><span class="g-cat">डिझाईन</span><a class="g-enquire" target="_blank" href="https://wa.me/7350471428?text=Design%20Image%20ची%20चौकशी"><svg style="width:14px;height:14px;fill:var(--primary);"><use href="#i-whatsapp"/></svg> चौकशी</a></div></div>
+  <div class="g-item" data-cat="card"><img src="images/img5.jpg" alt=""><div class="g-overlay"><span class="g-cat">कार्ड</span><a class="g-enquire" target="_blank" href="https://wa.me/7350471428?text=Visiting%20Card%20ची%20चौकशी"><svg style="width:14px;height:14px;fill:var(--primary);"><use href="#i-whatsapp"/></svg> चौकशी</a></div></div>
+  <div class="g-item" data-cat="board"><img src="images/img6.jpg" alt=""><div class="g-overlay"><span class="g-cat">बोर्ड</span><a class="g-enquire" target="_blank" href="https://wa.me/7350471428?text=LED%20Board%20ची%20चौकशी"><svg style="width:14px;height:14px;fill:var(--primary);"><use href="#i-whatsapp"/></svg> चौकशी</a></div></div>
+  <div class="g-item" data-cat="print"><img src="images/img7.jpg" alt=""><div class="g-overlay"><span class="g-cat">प्रिंट</span><a class="g-enquire" target="_blank" href="https://wa.me/7350471428?text=Backlit%20Print%20ची%20चौकशी"><svg style="width:14px;height:14px;fill:var(--primary);"><use href="#i-whatsapp"/></svg> चौकशी</a></div></div>
+  <div class="g-item" data-cat="design"><img src="images/img8.jpg" alt=""><div class="g-overlay"><span class="g-cat">डिझाईन</span><a class="g-enquire" target="_blank" href="https://wa.me/7350471428?text=Event%20Design%20ची%20चौकशी"><svg style="width:14px;height:14px;fill:var(--primary);"><use href="#i-whatsapp"/></svg> चौकशी</a></div></div>
+  <div class="g-item" data-cat="print"><img src="images/img9.jpg" alt=""><div class="g-overlay"><span class="g-cat">प्रिंट</span><a class="g-enquire" target="_blank" href="https://wa.me/7350471428?text=Flex%20Print%20ची%20चौकशी"><svg style="width:14px;height:14px;fill:var(--primary);"><use href="#i-whatsapp"/></svg> चौकशी</a></div></div>
+  <div class="g-item" data-cat="board"><img src="images/img10.jpg" alt=""><div class="g-overlay"><span class="g-cat">बोर्ड</span><a class="g-enquire" target="_blank" href="https://wa.me/7350471428?text=Shop%20Board%20ची%20चौकशी"><svg style="width:14px;height:14px;fill:var(--primary);"><use href="#i-whatsapp"/></svg> चौकशी</a></div></div>
+  <div class="g-item" data-cat="card"><img src="images/img11.jpg" alt=""><div class="g-overlay"><span class="g-cat">कार्ड</span><a class="g-enquire" target="_blank" href="https://wa.me/7350471428?text=Wedding%20Card%20ची%20चौकशी"><svg style="width:14px;height:14px;fill:var(--primary);"><use href="#i-whatsapp"/></svg> चौकशी</a></div></div>
+  <div class="g-item" data-cat="design"><img src="images/img12.jpg" alt=""><div class="g-overlay"><span class="g-cat">डिझाईन</span><a class="g-enquire" target="_blank" href="https://wa.me/7350471428?text=Festival%20Design%20ची%20चौकशी"><svg style="width:14px;height:14px;fill:var(--primary);"><use href="#i-whatsapp"/></svg> चौकशी</a></div></div>
+  <div class="g-item" data-cat="print"><img src="images/img13.jpg" alt=""><div class="g-overlay"><span class="g-cat">प्रिंट</span><a class="g-enquire" target="_blank" href="https://wa.me/7350471428?text=Pamphlet%20ची%20चौकशी"><svg style="width:14px;height:14px;fill:var(--primary);"><use href="#i-whatsapp"/></svg> चौकशी</a></div></div>
+</div>
+
+<!-- BANNER PREVIEW TOOL -->
+<div class="sec-head" id="tool">
+  <span class="sec-tag">बॅनर प्रिव्ह्यू टूल</span>
+  <h2 class="mr">तुमचा बॅनर फ्रेममध्ये कसा दिसेल ते पहा</h2>
+  <h2 class="en">See How Your Banner Looks on a Frame</h2>
+</div>
+<div class="tool-section">
+  <div class="tool-panel">
+    <div class="field"><label>बॅनर प्रकार</label><select id="bannerType" onchange="updateFrame()"><option value="flex">फ्लेक्स बॅनर (₹15/sqft)</option><option value="vinyl">व्हिनाईल (₹35/sqft)</option><option value="backlit">बॅकलाईट (₹120/sqft)</option><option value="standee">स्टँडी (₹450/pc)</option></select></div>
+    <div class="field"><label>फ्रेम स्टाईल</label><select id="frameStyle" onchange="updateFrame()"><option value="pole">पोल होर्डिंग</option><option value="wall">भिंतीवरील फ्लेक्स</option><option value="standee">स्टँडी</option><option value="rollup">रोल-अप</option></select></div>
+    <div class="field"><label>रुंदी (फूट) / Width (ft)</label><div class="slider-row"><input type="range" id="wRange" min="2" max="30" value="8" oninput="updateFrame()"><span class="range-val" id="wVal">8 ft</span></div></div>
+    <div class="field"><label>उंची (फूट) / Height (ft)</label><div class="slider-row"><input type="range" id="hRange" min="2" max="20" value="4" oninput="updateFrame()"><span class="range-val" id="hVal">4 ft</span></div></div>
+    <a class="btn-primary" style="width:100%; justify-content:center; margin-top:20px;" target="_blank" id="toolWaBtn" href="#"><span class="icon-svg" style="width:17px;height:17px;fill:#5e0000;"><svg><use href="#i-whatsapp"/></svg></span>या साईझसाठी चौकशी करा</a>
+  </div>
+  <div class="frame-stage" id="frameStage">
+    <div class="hoarding style-pole" id="hoardingBox">
+      <div class="frame" id="frameBox" style="width:280px; height:160px;">
+        <img src="images/img17.jpg" onerror="this.src='https://placehold.co/600x400/5e0000/ffc900?text=Upload+Design'" alt="banner preview" id="frameImg">
+      </div>
+      <div class="poles" id="polesEl"><div class="pole"></div><div class="pole"></div></div>
+      <div class="size-tag" id="sizeTag">8 ft × 4 ft</div>
+    </div>
+  </div>
+</div>
+
+<!-- PRICING -->
+<div class="sec-head" id="pricing">
+  <span class="sec-tag">दर मोजा</span>
+  <h2 class="mr">अंदाजे किंमत लगेच पहा</h2>
+  <h2 class="en">Get an Instant Estimate</h2>
+</div>
+<div class="pricing-wrap">
+  <div class="price-card">
+    <div class="price-form">
+      <div class="field"><label>प्रकार निवडा</label><select id="priceType" onchange="calcPrice()"><option value="15">फ्लेक्स बॅनर — ₹15/sqft</option><option value="35">व्हिनाईल — ₹35/sqft</option><option value="120">बॅकलाईट — ₹120/sqft</option><option value="flat450">स्टँडी — ₹450/piece</option></select></div>
+      <div class="row2"><div class="field"><label>रुंदी (फूट)</label><input type="number" id="pw" value="8" min="1" oninput="calcPrice()"></div><div class="field"><label>उंची (फूट)</label><input type="number" id="ph" value="4" min="1" oninput="calcPrice()"></div></div>
+      <div class="field"><label>नग / Quantity</label><input type="number" id="pq" value="1" min="1" oninput="calcPrice()"></div>
+    </div>
+    <div class="total-box">
+      <div class="label">अंदाजे एकूण किंमत</div>
+      <div class="amount" id="totalAmt">₹1,920</div>
+      <div class="note">* अंतिम किंमत डिझाईन व फिनिशनुसार बदलू शकते.</div>
+      <a class="btn-primary" target="_blank" id="priceWaBtn" href="#"><span class="icon-svg" style="width:17px;height:17px;fill:#5e0000;"><svg><use href="#i-whatsapp"/></svg></span> WhatsApp वर चौकशी पाठवा</a>
+    </div>
+  </div>
+</div>
+
+<!-- TRUST -->
+<div class="sec-head" id="about">
+  <span class="sec-tag">आमच्याबद्दल</span>
+  <h2 class="mr">आम्हीच का निवडावे?</h2>
+</div>
+<div class="about-grid">
+  <div class="about-card"><span class="ic"><svg><use href="#i-award"/></svg></span><h3>७+ वर्षांचा अनुभव</h3><p>पुण्यातील विश्वासार्ह प्रिंटींग भागीदार.</p></div>
+  <div class="about-card"><span class="ic"><svg><use href="#i-printer"/></svg></span><h3>जलद डिलिव्हरी</h3><p>बहुतांश ऑर्डर्स २४ तासात तयार.</p></div>
+  <div class="about-card"><span class="ic"><svg><use href="#i-quote"/></svg></span><h3>१००% कस्टम डिझाईन</h3><p>प्रत्येक डिझाईन खास बनवलेलं.</p></div>
+</div>
+<div class="trust">
+  <div class="card"><b>7+</b><span>वर्षांचा अनुभव</span></div>
+  <div class="card"><b>500+</b><span>पूर्ण प्रोजेक्ट्स</span></div>
+  <div class="card"><b>24hr</b><span>जलद डिलिव्हरी</span></div>
+  <div class="card"><b>100%</b><span>कस्टम डिझाईन</span></div>
+</div>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="foot-grid">
+    <div>
+      <div class="logo" style="margin-bottom:14px; height:60px;">
+        <img src="logo.png" onerror="this.src='https://placehold.co/200x60/5e0000/ffc900?text=Akash+Lavate'" alt="Business Logo" style="height:100%; width:auto;">
+      </div>
+      <p class="foot-icon-link"><span class="icon-svg" style="width:16px;height:16px;fill:var(--secondary);"><svg><use href="#i-pin"/></svg></span> पुणे, महाराष्ट्र</p>
+      <p class="foot-icon-link"><span class="icon-svg" style="width:16px;height:16px;fill:var(--secondary);"><svg><use href="#i-instagram"/></svg></span> @akash_lavate_flex_printing</p>
+    </div>
+    <div>
+      <h4>क्विक लिंक्स</h4>
+      <a href="#gallery">गॅलरी</a><a href="#tool">बॅनर प्रिव्ह्यू</a><a href="#pricing">दर</a>
+    </div>
+    <div>
+      <h4>संपर्क</h4>
+      <a href="tel:+7350471428" class="foot-icon-link"><span class="icon-svg" style="width:16px;height:16px;fill:var(--secondary);"><svg><use href="#i-phone"/></svg></span> +91 73504 87428</a>
+      <a href="https://wa.me/7350471428" target="_blank" class="foot-icon-link"><span class="icon-svg" style="width:16px;height:16px;fill:var(--secondary);"><svg><use href="#i-whatsapp"/></svg></span> WhatsApp</a>
+    </div>
+  </div>
+  <div class="copyright">© 2026 — सर्व हक्क राखीव</div>
+</footer>
+
+<a class="wa-float" target="_blank" href="https://wa.me/7350471428" aria-label="WhatsApp"><span class="icon-svg" style="width:28px;height:28px;color:#fff;"><svg><use href="#i-whatsapp"/></svg></span></a>
+
+<!-- SERVICE IMAGE MODAL -->
+<div id="serviceModal" class="modal-overlay" style="display:none;">
+  <div class="modal-content">
+    <span class="modal-close" onclick="closeModal()">&times;</span>
+    <div class="modal-carousel-wrapper">
+      <div class="modal-track" id="modalTrack"></div>
+      <button class="modal-prev" onclick="modalChangeSlide(-1)">&#10094;</button>
+      <button class="modal-next" onclick="modalChangeSlide(1)">&#10095;</button>
+    </div>
+    <div class="modal-dots" id="modalDots"></div>
+  </div>
+</div>
+
+<script>
+// ---------- EXISTING ORIGINAL SCRIPTS ----------
+function setLang(l){
+  document.body.className = 'lang-' + l;
+  document.querySelectorAll('.lang-btn').forEach(function(btn){ btn.classList.toggle('active', btn.getAttribute('data-lang') === l); });
+  document.querySelectorAll('.hero-slide-caption').forEach(function(c){
+    var isMatch = c.classList.contains(l);
+    c.style.display = isMatch ? 'block' : 'none';
+  });
+}
+window.onscroll = function(){ document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40); };
+document.querySelectorAll('.g-filter').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    document.querySelectorAll('.g-filter').forEach(function(b){b.classList.remove('active');});
+    btn.classList.add('active');
+    var f = btn.getAttribute('data-filter');
+    document.querySelectorAll('.g-item').forEach(function(item){
+      var show = (f === 'all') || (item.getAttribute('data-cat') === f);
+      item.classList.toggle('g-hidden', !show);
+    });
+  });
+});
+function openMenu(){document.getElementById('mobile-menu').style.display='flex';}
+function closeMenu(){document.getElementById('mobile-menu').style.display='none';}
+document.querySelectorAll('.mm-link').forEach(function(a){a.addEventListener('click', closeMenu);});
+
+// Original Tool and Price logic
+function updateFrame(){
+  var w = parseInt(document.getElementById('wRange').value);
+  var h = parseInt(document.getElementById('hRange').value);
+  document.getElementById('wVal').textContent = w + ' ft';
+  document.getElementById('hVal').textContent = h + ' ft';
+  var maxW = 340, maxH = 260;
+  var scale = Math.min(maxW / w, maxH / h);
+  var boxW = Math.max(120, w * scale);
+  var boxH = Math.max(70, h * scale);
+  var frame = document.getElementById('frameBox');
+  frame.style.width = boxW + 'px';
+  frame.style.height = boxH + 'px';
+  document.getElementById('sizeTag').textContent = w + ' ft × ' + h + ' ft';
+
+  var styleSel = document.getElementById('frameStyle');
+  var styleVal = styleSel.value;
+  var hoarding = document.getElementById('hoardingBox');
+  hoarding.className = 'hoarding style-' + styleVal;
+  document.getElementById('frameStage').className = 'frame-stage style-' + styleVal;
+
+  var typeSel = document.getElementById('bannerType');
+  var typeLabel = typeSel.options[typeSel.selectedIndex].text;
+  var styleLabel = styleSel.options[styleSel.selectedIndex].text;
+  var msg = 'नमस्कार!\nमला खालील बॅनर हवे आहे:\n▸ प्रकार: ' + typeLabel + '\n▸ फ्रेम स्टाईल: ' + styleLabel + '\n▸ साईझ: ' + w + ' x ' + h + ' फूट\nकृपया किंमत व उपलब्धता सांगा.';
+  document.getElementById('toolWaBtn').href = 'https://wa.me/7350471428?text=' + encodeURIComponent(msg);
+}
+function calcPrice(){
+  var typeSel = document.getElementById('priceType');
+  var val = typeSel.value;
+  var w = parseFloat(document.getElementById('pw').value) || 0;
+  var h = parseFloat(document.getElementById('ph').value) || 0;
+  var q = parseFloat(document.getElementById('pq').value) || 1;
+  var total = val === 'flat450' ? 450 * q : w * h * parseFloat(val) * q;
+  document.getElementById('totalAmt').textContent = '₹' + Math.round(total).toLocaleString('en-IN');
+
+  var typeLabel = typeSel.options[typeSel.selectedIndex].text;
+  var msg = 'नमस्कार!\nमला किंमत हवी आहे:\n▸ प्रकार: ' + typeLabel + '\n▸ साईझ: ' + w + ' x ' + h + ' फूट\n▸ नग: ' + q + '\n▸ अंदाजे किंमत: ₹' + Math.round(total).toLocaleString('en-IN') + '\nकृपया अंतिम किंमत सांगा.';
+  document.getElementById('priceWaBtn').href = 'https://wa.me/7350471428?text=' + encodeURIComponent(msg);
+}
+updateFrame(); calcPrice();
+
+// ---------- HERO 3-IMAGE ROTATING SHOWCASE ----------
+var heroIndex = 0;
+var heroSlides = document.querySelectorAll('.hero-slide');
+var heroDots = document.querySelectorAll('#heroDots .dot');
+function heroGoTo(i){
+  heroIndex = i;
+  heroSlides.forEach(function(s, idx){ s.classList.toggle('active', idx === i); });
+  heroDots.forEach(function(d, idx){ d.classList.toggle('active', idx === i); });
+}
+function heroNext(){ heroGoTo((heroIndex + 1) % heroSlides.length); }
+setInterval(heroNext, 4500);
+
+// ---------- CAROUSEL & POPUP MODAL SCRIPTS ----------
+let modalState = { trackId: null, index: 0, total: 0 };
+function changeSlide(trackId, dir) {
+  const track = document.getElementById(trackId); if(!track) return;
+  const slides = track.querySelectorAll('.carousel-slide');
+  const dotsContainer = document.getElementById('dots-' + trackId.replace('track-', ''));
+  const dots = dotsContainer ? dotsContainer.querySelectorAll('.dot') : [];
+  let currentIndex = 0; dots.forEach((d, i) => { if(d.classList.contains('active')) currentIndex = i; });
+  let newIndex = (currentIndex + dir + slides.length) % slides.length;
+  track.style.transform = `translateX(-${newIndex * 100}%)`;
+  dots.forEach((d, i) => d.classList.toggle('active', i === newIndex));
+}
+function goToSlide(trackId, idx) {
+  const track = document.getElementById(trackId); if(!track) return;
+  const slides = track.querySelectorAll('.carousel-slide');
+  const dotsContainer = document.getElementById('dots-' + trackId.replace('track-', ''));
+  const dots = dotsContainer ? dotsContainer.querySelectorAll('.dot') : [];
+  track.style.transform = `translateX(-${idx * 100}%)`;
+  dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+}
+function openModal(trackId) {
+  const track = document.getElementById(trackId); if(!track) return;
+  const slides = track.querySelectorAll('.carousel-slide');
+  const images = Array.from(slides).map(slide => slide.querySelector('img').src);
+  modalState.trackId = trackId; modalState.index = 0; modalState.total = images.length;
+  const modalTrack = document.getElementById('modalTrack'); const modalDots = document.getElementById('modalDots');
+  modalTrack.innerHTML = ''; modalDots.innerHTML = '';
+  images.forEach((src, i) => {
+    const slide = document.createElement('div'); slide.className = 'modal-slide'; slide.innerHTML = `<img src="${src}" alt="Service Image">`; modalTrack.appendChild(slide);
+    const dot = document.createElement('span'); dot.className = 'modal-dot' + (i === 0 ? ' active' : ''); dot.onclick = () => modalGoToSlide(i); modalDots.appendChild(dot);
+  });
+  document.getElementById('serviceModal').style.display = 'flex'; document.body.style.overflow = 'hidden'; modalUpdateCarousel();
+}
+function closeModal() { document.getElementById('serviceModal').style.display = 'none'; document.body.style.overflow = 'auto'; }
+function modalChangeSlide(dir) { modalState.index = (modalState.index + dir + modalState.total) % modalState.total; modalUpdateCarousel(); }
+function modalGoToSlide(idx) { modalState.index = idx; modalUpdateCarousel(); }
+function modalUpdateCarousel() {
+  const track = document.getElementById('modalTrack'); if(!track) return;
+  track.style.transform = `translateX(-${modalState.index * 100}%)`;
+  const dots = document.querySelectorAll('.modal-dot'); dots.forEach((dot, i) => dot.classList.toggle('active', i === modalState.index));
+}
+document.getElementById('serviceModal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>
